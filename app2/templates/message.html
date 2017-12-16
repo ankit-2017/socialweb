@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <script>
+
+                        $(document).ready(function () {
+
+                            $('.msg_reply_btn').click(function () {
+
+                                $(this).siblings('#reply_msg').slideToggle('fast');
+                            });
+                        });
+
+                    </script>
+
+{% for rp in detl %}
+        <div class="row">
+
+            <div class="col-md-2">
+
+                {% if rp.msg_user.profile.profile_pic %}
+                <img class="img-circle pull-right" src="{{ rp.msg_user.profile.profile_pic.url }}" width="50px" height="50px">
+                    {% else %}
+                    {% load static %}
+                    <img class="img-circle pull-right" src="{% static 'image/user.png' %}" width="50px" height="50px">
+                {% endif %}
+            </div><!--end of col-md-2-->
+
+
+            <div class="col-md-6">
+                <div style="color: #1b6d85; font-size: 17px">
+                    {{ rp.msg_user.get_full_name|title }}
+                    <span style="color: #3e152b; font-size: 13px">{{ rp.dat2|timesince }} &nbsp; ago </span>
+                </div>
+                <div style="font-size: 14px">{{ rp.msg|linebreaks }}</div>
+
+                <div title="Reply">
+                    <a href="/myblog/dashboard/message/delete_message/{{ rp.id }}">
+                        <button type="button" class="btn btn-link">Delete</button>
+                    </a>
+                    <button type="button" class="btn btn-link msg_reply_btn">
+                        Reply
+                    </button>
+                    <div class="collapse" id="reply_msg">
+                        <form method="post" action="/myblog/dashboard/rply_message/">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                     {{ form1.msg }}
+                                </div>
+                                <input type="hidden" value="{{ rp.msg_user.id }}" name="hdn">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-send"></span>
+                            </button>
+                            </div>
+                        </form>
+                    </div><!--end of col-md-offset-1-->
+                </div><!--end of title reply-->
+
+            </div><!--end of col-md-`6-->
+
+        </div><!--end of row-->
+    {% endfor %}
+<a href="/myblog/dashboard/">
+            <button type="button" class="btn btn-danger btn-sm">Return to Dashboard</button>
+        </a>
+{% endblock %}

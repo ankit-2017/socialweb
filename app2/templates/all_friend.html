@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if to_friend %}
+    {% for fr in to_friend %}
+        <div class="row">
+            <div class="col-md-2">
+                <div>
+                {% if fr.sender.profile.profile_pic %}
+                <img class="img-circle" src="{{ fr.sender.profile.profile_pic.url }}" width="100px" height="100px">
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div>
+                    <a href="/myblog/dashboard/fdash/{{ fr.id }}/{{ fr.sender.username }}/">
+                        <span>{{ fr.sender.get_full_name|title }}</span>
+                    </a>
+                </div>
+                <div>
+                        <span>{{ fr.sender.profile.job_title|title }}</span>
+                </div>
+                <div>
+                        <span>{{ fr.sender.profile.location|title }}</span>
+                </div>
+            </div>
+
+        </div>
+
+    {% endfor %}
+        {% endif %}
+        {% if sender %}
+            {% for fr in sender %}
+        <div class="row">
+            <div class="col-md-2">
+                <div>
+                {% if fr.to_friend.profile.profile_pic %}
+                <img class="img-circle" src="{{ fr.to_friend.profile.profile_pic.url }}" width="100px" height="100px">
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div>
+                    <a href="/myblog/dashboard/fdash/{{ fr.id }}/{{ fr.to_friend.username }}/">
+                    <span>{{ fr.to_friend.get_full_name|title }}</span>
+                    </a>
+                </div>
+                <div>
+                    <span>{{ fr.to_friend.profile.job_title|title }}</span>
+                </div>
+                <div>
+                    <span>{{ fr.to_friend.profile.location|title }}</span>
+                </div>
+            </div>
+
+        </div>
+
+    {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+            <div class="form-group">
+                        {% if messages %}
+                        <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            <div class="alert alert-danger" role="alert"> {{ message }} </div>
+                        </li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+            </div>
+
+{% if to_friend %}
+
+        <div class="row">
+        {% for fr in to_friend %}
+            <div class="col-md-2">
+            <center>
+                <div>
+
+                <div>
+                    <a href="/myblog/now_share/{{ fr.sender.id }}/{{ scom.id }}">
+                        <span>{{ fr.sender.get_full_name|title }}</span>
+                    </a>
+                </div>
+
+                {% if fr.sender.profile.profile_pic %}
+                <img class="img-circle" src="{{ fr.sender.profile.profile_pic.url }}" width="100px" height="100px">
+                {% endif %}
+
+                </div>
+            <a href="/myblog/now_share/{{ fr.sender.id }}/{{ scom.id }}">
+                <div style="margin-top: 20px" class="btn btn-primary ">Share</div>
+            </a>
+            </center>
+            </div><!--end of col-md-2-->
+            {% endfor %}
+        </div><!--end of row-->
+        {% endif %}
+
+
+
+
+        {% if sender %}
+        <div class="row">
+        {% for fr in sender %}
+            <div class="col-md-2">
+                <center>
+                <div>
+                    <a href="/myblog/now_share/{{ fr.to_friend.id }}/{{ scom.id }}">
+                        <span>{{ fr.to_friend.get_full_name|title }}</span>
+                    </a>
+                </div>
+
+                <div>
+                {% if fr.to_friend.profile.profile_pic %}
+                <img class="img-circle" src="{{ fr.to_friend.profile.profile_pic.url }}" width="100px" height="100px">
+                {% endif %}
+                </div>
+
+            <a href="/myblog/now_share/{{ fr.to_friend.id }}/{{ scom.id }}">
+                <div style="margin-top: 20px" class="btn btn-primary ">Share</div>
+            </a>
+                </center>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+

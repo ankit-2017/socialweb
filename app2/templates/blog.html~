@@ -1,0 +1,150 @@
+<html>
+<head>
+<title>
+Myblog-A Blog for everyone 
+</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+{% load static %}
+<link rel="icon" type="image/png" href="{% static 'image/icon.png' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Scope+One" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+<style type="text/css">
+.img1 {
+	width: 500px;
+	height: 250px;
+}
+</style>
+
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#head1" area-expanded="false">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+				</div><!--end of header-->
+			<div class="navbar-collapse collapse" id="head1">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="#">Favorites</a></li>
+					<li><a href="/myblog/profile">Profile</a></li>
+					<li><a href="#">Notifications</a></li>
+					<li><a href="#">Help</a></li>
+				</ul>
+				<form class="navbar-form navbar-left" action="/myblog/search-t/" method="post">
+					{% csrf_token %}
+					<div class="form-group">
+						<input type="text" name="srch" class="form-control" placeholder="Search title">
+					</div>
+						<button type="submit" class="btn btn-warning">Search</button>
+				</form>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="">Welcome:&nbsp;{{request.user.first_name}}
+												{{request.user.last_name}}
+				</a></li>
+				
+				<li> <a title="logout" href="/logout/">Logout</a> </li>
+
+			</ul>
+			</div><!--end of id head1-->
+			</div><!--end of inner container field-->
+		</nav>
+	</div><!--end of outer container field-->
+	<div class="container">
+			<div class="col-lg-8 col-lg-offset-3 font">
+				<div class="row">
+					<form action="/myblog/" method="post" class="form-horizontal" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-group">
+						<label class="col-md-2 control-label">Comment</label>
+						<div class="col-md-6">
+							{{form1.comment}}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 control-label">Upload Images</label>
+						<div class="col-md-4">
+							{{form1.image}}
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary col-md-offset-4">Submit</button>
+				<div><!--end of col-lg-8's row-->
+					</form>
+				{% for k in  bl %}
+			<div class="row">
+				<div class="col-md-8">
+					<div class="col-md-12">
+					<img src="{{ k.user1.profile_pic }}" width="60" height="60">
+						{{k.user1.first_name}}&nbsp;&nbsp;{{k.user1.last_name}} 
+						<small style="color:#777777;margin-left:40px">{{k.dat|timesince}} &nbsp; ago</small>
+					</div>
+					<blockquote>
+						<div class="col-md-12">
+							{{k.comment}}
+						</div>
+						<div class="col-md-12">
+							{% if k.image %}
+							<img class="img-responsive img1" src="{{ k.image.url }}" />
+							{% endif %}
+						</div>
+					</blockquote>
+					<div class="col-md-12 inline">
+							<ul>
+								<li>
+							<a title="Delete" href="/myblog/delete/{{k.id}}">
+								<button type="button" class="btn btn-danger">
+								<span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
+								</button>
+							</a>
+								</li>
+						
+								<li>
+								<a title="Like" href="/myblog/like/{{k.id}}"><button style="background-color:blue" type="button" class="btn">
+										<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+									</button>
+									</a>
+								</li>
+								<li>
+								<a title="Share this comment" href="#"><button type="button" class="btn btn-info">
+										<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+									</button>
+									</a>
+								</li>
+								<li>
+									<a title="Add to favorite" href="#">
+										<button type="button" class="btn btn-success">
+										<span style="color:red;" class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+										</button>
+									</a>
+								</li>
+								<li>
+								<a title="Reply to comment" href="#"><button type="button" style="background-color:#d4dbd8;color:black;border-radius:5px;padding:7px" class="btn btn-md">
+										<span class="glyphicon glyphicon-share-alt" aria-hidden="true">Reply</span>
+									</button>
+									</a>
+								</li>
+							</ul>	
+						</div><!--end of col-md-12-->
+					</div><!--end of col-md-6-->
+				</div><!--end of row-->
+				{% endfor %}
+		</div><!--end of col-lg-8-->
+	</div><!--end of container-->
+</body>
+</html>

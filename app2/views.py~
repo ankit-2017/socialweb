@@ -1,0 +1,174 @@
+from django.shortcuts import render
+from django.http import *
+from datetime import *
+from .models import *
+from .forms import * 
+from django.contrib import auth
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+
+def home(request):
+	data=student.objects.all()
+	clg=collage.objects.all().order_by('-event_date')
+	
+	return render(request,'event.html',{'abc':data,'event':clg}) 
+#def name(request,d):	this is for display data on another page 
+	#data1=student.objects.get(id=d)
+	#return render(request,'page.html',{'abc1':data1})
+	
+def del1(request,d):
+	data2=student.objects.get(id=d)
+	data2.delete()
+	return HttpResponseRedirect('/')
+	
+def form(request):
+	if request.method=='POST':
+		form=myform(request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/')
+	else:
+		form=myform()
+	
+	return render(request,'contact.html',{'form':form})
+
+
+def search(request):
+	bl=blog1.objects.all().order_by('-dat')
+	if request.method=='POST':
+		sq=request.POST['tx']
+		if sq :
+			#sm=blog1.objects.filter(title__icontains=sq)
+			start=blog1.objects.filter(comment__icontains=sq)
+
+			if start:
+				return render(request,'search.html',{'result':start})
+			else:
+				return render(request,'error.html')
+		else:
+			return HttpResponseRedirect('/')
+	
+	
+	return render(request,'search.html',{'blg':bl})
+
+def search_title(request):
+	if request.method=='POST':
+		sq=request.POST['srch']
+		if sq :
+			form1=blogg()
+			#sm=blog1.objects.filter(title__icontains=sq)
+			start=blog1.objects.filter(first_name__icontains=sq)
+			if start:
+				return render(request,'blog.html',{'bl':start,'form1':form1})
+			else:
+				return render(request,'error.html')
+		else:
+			return HttpResponseRedirect('/myblog/')
+	return render(request,'blog.html',{'form':form})
+def delete1(request,d):
+	data3=blog1.objects.get(id=d)
+	data3.delete()
+	return HttpResponseRedirect('/myblog/')
+
+def login_page(request):
+	if request.method=='POST':
+		form=regform(request.POST)
+		if form.is_valid():
+			first_name=form.cleaned_data['first_name']
+			last_name=form.cleaned_data['last_name']
+			username=form.cleaned_data['username']
+			password=form.cleaned_data['password']
+			User.objects.create_user(first_name=first_name,last_name=last_name,username=username,password=password)
+			user=auth.authenticate(username=username,password=password)
+			auth.login(request,user)
+			return HttpResponseRedirect('/myblog/')
+	else:
+		form=regform()
+	return render(request,'login1.html',{'form2':form})
+
+
+def login(request):
+	username=request.POST['username']
+	password=request.POST['password']
+	user = auth.authenticate(username=username,password=password)
+	if user is not None:
+		auth.login(request,user)
+		return HttpResponseRedirect('/myblog/')
+	else:
+		return HttpResponseRedirect('/invalid/')
+@login_required
+def myblog(request):
+	if request.method=='POST':
+			form1=blogg(request.POST,request.FILES)
+			if form1.is_valid():
+			 	fil1=form1.save(commit=False)
+			 	fil1.user1=request.user
+			 	fil1.save()
+			 	return HttpResponseRedirect('/myblog/')
+	else:
+		form1=blogg()
+		b=blog1.objects.all().order_by('-dat')
+	return render(request,'blog.html',{'form1':form1,'bl':b})
+	
+def profile(request):
+	if request.method== 'POST':
+		form5=profile1(request.POST,request.FILES)
+		if form5.is_valid():
+			form5.save()
+			return HttpResponseRedirect('/myblog/')
+	else:
+		form5=profile1()
+		#form=regform()
+	return render(request,'profile.html',{'form5':form5})
+def logout(request):
+	auth.logout(request)
+	return HttpResponseRedirect('/')
+	
+def forgot(request):
+	email1=request.POST['email4']
+	user2 = User.objects.get(username=email1)
+	if user2 :
+			subject = 'for testing'
+			link = "You forgot your SocialBlog password.Click on the link to reset password \nhttp://127.0.0.1:8000/reset/"+email1
+			from1 = 'ankitdubeymail@gmail.com'
+			send_mail(subject,link,from1,[email1],fail_silently=False)
+			return HttpResponseRedirect('/')
+	else:
+		return HttpResponseRedirect('/invalid/')
+	
+def forget1(request):
+	return render(request,'forgot.html')
+
+def reset_password_form(request,user):
+	user1=user
+	obj= User.objects.get(username=user1)
+	return render(request,'reset_password.html',{'usr':user1,'obj':obj})
+
+def reset_password(request):
+	user= request.user
+	if request.method == 'POST':
+		form=profile1(request.POST)
+		if form.is_valid():
+			user.first_name = form.cleaned_data['first_name']
+			user.last_name = form.cleaned_data['last_name']
+			user.username = form.cleaned_data['username']
+			user.profile.dob = form.cleaned_data['dob']
+			user.profile.profile_pic= form.cleaned_data['profile_pic']
+			user.profile.mobile_number = form.cleaned_data['mobile_number']
+
+			user.save()
+			return HttpResponseRedirect('/myblog/')
+	else:
+		form = profile1(instance=user, initial={'dob':user.profile.dob,
+									'profile_pic':user.profile.profile_pic,
+								'mobile_number':user.profile.mobile_number})
+	return render(request,'reset_password.html',{'form':form})
+		
+
+
+
+	
+
+	
+

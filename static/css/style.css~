@@ -1,0 +1,46 @@
+.navbar-default {
+	background-color: #1f3863;
+}
+.container-fluid {
+	padding: 0px;
+	margin: 0px;
+}
+.navbar-default #head1 .nav li a {
+	color: white;
+}
+.navbar-default #head1 .nav li:hover {
+	background-color: #000000;
+}
+.row .col-md-8{
+	border: 1px solid #b7b9bc;
+	border-radius: 10px;
+	margin-top: 10px;
+	padding: 10px;
+}
+.row .col-md-8 .inline ul li { 
+	display: inline-block;
+	list-style: none;
+	text-align: center;
+	margin-top: 5px;
+}
+.row .col-md-8 .inline ul li a {
+	color: white;
+}
+.row .col-md-8 .inline ul li a .btn {
+	border-radius: 50%;
+	padding: 10px;
+}
+#font1 {
+	font-family: 'Scope One', serif;
+}
+.font .row{
+	font-family: 'Scope One', serif;
+	font-size: 18px;
+	font-weight: bold;
+}
+.inline {
+	margin-top: 10px;
+	background-color: #ffffff;
+	border-radius: 7px;
+	
+}

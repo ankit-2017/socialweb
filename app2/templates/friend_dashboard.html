@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row" style="border: 1px solid black; background-color: #5b80b2">
+    <div class="col-md-4">
+        {% if fdash %}
+            {% if fdash.profile.profile_pic %}
+                <img class="img-circle" src="{{ fdash.profile.profile_pic.url }}" width="100" height="100">
+            {% endif %}
+            {{ fdash.get_full_name|title }}
+        {% endif %}
+    </div>
+    <div class="col-md-5">
+        <button type="button" class="btn btn-default">Send Message</button>
+    </div>
+    </div><!--end of row-->
+    <div class="container" style="margin-top: 20px">
+    {% if u_post %}
+    {% for j in u_post %}
+        <div class="row" style="margin-bottom: 10px"  >
+
+            <div class="col-md-2 ">
+
+                {% if j.user1.profile.profile_pic %}
+                <img class="img-circle pull-right" src="{{ j.user1.profile.profile_pic.url }}" width="30px" height="30px">
+                {% endif %}
+            </div><!--end of col-md-2-->
+
+
+            <div class="col-md-6 border1">
+                <span  style="color: #1b6d85; font-size: 15px">
+                    {{ j.user1.get_full_name|title }}
+                    <span style="color: #3e152b; font-size: 13px">{{ j.dat|timesince }} &nbsp; ago </span>
+                </span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                <div style="font-size: 14px">{{ j.comment }}</div>
+
+
+            </div><!--end of col-md-`6-->
+        </div><!--end of row-->
+    {% endfor %}
+    {% endif %}
+    </div>
+{% endblock %}

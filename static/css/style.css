@@ -1,0 +1,74 @@
+
+.container-fluid {
+	padding: 0px;
+	margin: 0px;
+}
+.navbar-default #head1 .nav li a {
+	color: white;
+}
+
+.main{
+
+	margin-top: 10px;
+	padding: 10px;
+}
+.comment {
+	font-size: 15px;
+	font-style: normal;
+	font-weight: lighter;
+}
+.row .col-md-8 .inline ul li {
+	display: inline-block;
+	list-style: none;
+	text-align: center;
+	margin-top: 5px;
+}
+
+
+#font1 {
+	font-family: 'Scope One', serif;
+}
+.font .row{
+	font-family: 'Scope One', serif;
+	font-size: 18px;
+
+}
+.inline {
+	margin-top: 10px;
+	background-color: #ffffff;
+	border-radius: 7px;
+	
+}
+.main .col-md-2 a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.replytext {
+	font-size: 14px;
+	font-style: normal;
+	color: #000000;
+
+}
+.username {
+	font-size: 15px;
+	padding: 0px;
+}
+
+.replynum .badge {
+	font-size: 14px;
+	background-color: #013f36;
+	color: #ffffff;
+	font-weight: bold;
+
+}
+.replynum {
+	font-size: 14px;
+	color: #000000;
+	font-weight: bold;
+}
+.inline ul {
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+}

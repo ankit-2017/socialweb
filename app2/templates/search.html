@@ -1,0 +1,30 @@
+<html>
+<head>
+
+</head>
+
+<body>
+	<h2>Search Title here</h2>
+	<form action="" method="post">
+		{% csrf_token %}
+		<input type="text" name="tx" placeholder="Enter title to search	"> &nbsp;
+			<button type="submit"> search</button>
+
+	</form>
+{% for j in result %}
+	<b style="color:blue">{{j}}</b><br>
+	{{j.comment}}<br>
+	<hr>
+
+{% endfor %}
+{% for k in blg %}
+	<b style="color:blue">{{k.title}}</b><br>
+	{{k.comment}}<br><br>
+	
+{% endfor %}
+
+<a href="/search/">
+	<button type="button">BACK</button>
+</a>
+</body>
+</html>

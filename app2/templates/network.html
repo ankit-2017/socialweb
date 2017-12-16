@@ -1,0 +1,18 @@
+{% for net in obj1 %}
+    {% if net.profile.profile_pic  %}
+<img class="img-responsive" src=" {{ net.profile.profile_pic.url }}" width="100px" height="100px" ><br>
+        {% else %}
+        {% load static %}
+        <img class="img-circle pull-right" src="{% static 'image/user.png' %}" width="100px" height="100px">
+    {% endif %}
+    {{ net.get_full_name }}<br>
+
+    <button onclick="">Message</button><br>
+    <form method="post" action="/myblog/network/">
+    {% csrf_token %}
+    {{ form1.msg }}
+        <input type="hidden" value="{{ net.id }}" name="hdn">
+    <button type="submit">Send</button>
+    </form>
+    <hr>
+{% endfor %}

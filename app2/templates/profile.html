@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>
+User's profile
+</title>
+<meta name="viewport" content="width=device-width initial-scale=1" >
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'font/glyphicons-halflings-regular.eot' %}">
+<style type="text/css">
+#pro { 
+	font-size: 40px;
+
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<center>
+				<span id="pro">User's Profile</span>
+			</center>
+				<form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+                    {{ form.non_field_errors }}
+					{% csrf_token %}
+					<div class="form-group">
+						<label class="col-md-3 control-label">First name</label>
+						<div class="col-md-3">
+							{{form.first_name}}
+						</div>
+						<div class="col-md-3">
+							{{form.last_name}}
+						</div>
+					</div><!--end of form-group-->
+					<div class="form-group">
+						<label class="col-md-3 control-label">Email</label>
+						<div class="col-md-6">
+							{{form.email}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Date of Birth</label>
+						<div class="col-md-6">
+							{{form.dob}}
+						</div>
+					</div><!--end of form-group-->
+
+					<div class="form-group">
+						<label class="col-md-3 control-label">Profile Image</label>
+						<div class="col-md-6">
+							{{form.profile_pic}}
+                            {{ form.profile_pic.errors }}
+						</div>
+					</div><!--end of form-group-->
+					<div class="form-group">
+						<label class="col-md-3 control-label">Mobile Number</label>
+						<div class="col-md-6">
+							{{form.mobile_number}}
+                            {{ form.mobile_number.errors }}
+						</div>
+					</div><!--end of form-group-->
+                    <div class="form-group">
+						<label class="col-md-3 control-label">Job Title</label>
+						<div class="col-md-6">
+							{{form.job_title}}
+                            {{ form.job_title.errors }}
+						</div>
+					</div><!--end of form-group-->
+                    <div class="form-group">
+						<label class="col-md-3 control-label">Location</label>
+						<div class="col-md-6">
+							{{form.location}}
+                            {{ form.location.errors }}
+						</div>
+					</div><!--end of form-group-->
+
+                    <div class="form-group">
+						<label class="col-md-3 control-label">Collage</label>
+						<div class="col-md-6">
+							{{form.collage}}
+                            {{ form.collage.errors }}
+						</div>
+					</div><!--end of form-group-->
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary col-md-offset-5">Submit</button>
+                        <a href="/myblog/" ><button type="button" class="btn btn-danger">Back</button></a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

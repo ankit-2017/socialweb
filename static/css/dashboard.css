@@ -1,0 +1,26 @@
+.navbar-default {
+    background-color: #013f36;
+}
+.container-fluid {
+    padding: 0px;
+    margin: 0px;
+}
+#head1 .nav li a {
+    color: white;
+}
+.col-md-offset-2 .row .col-md-2 {
+    padding: 0px;
+    margin: 0px;
+}
+.remove1 {
+    display: none;
+}
+.remove_post {
+ display:none;
+ }
+.name-dropdown li a:hover {
+    background-color: gray;
+}
+.name-dropdown {
+	background-color: #013f36;
+}

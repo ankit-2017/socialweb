@@ -1,0 +1,158 @@
+{% load socialaccount %}
+{% providers_media_js %}
+
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Scope+One" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login1.css' %}">
+
+<style type="text/css"> 
+body {
+	background-color: #ddd;
+}
+#social {
+	margin-top: 40px;
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid" id="navbar">
+			<div class="row">
+				<div class="col-md-7">
+					<center>
+				<div id="social"><a href="/">SocialWeb</a></div>
+					</center>
+				</div>
+				<div class="col-md-5">
+			<form class="navbar-form navbar-right" action="{%  url 'check' %}" method="post">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="email">Username</label><br>
+						<input type="text" name="username" id="email" class="form-control" placeholder="Enter login ID">
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label><br>
+						<input type="password" name="password" id="password" class="form-control" placeholder="Enter password">
+					</div>
+					<div class="form-group"><br>
+						<button type="submit" class="btn btn-warning">Login</button>
+					</div><br>
+                    <div class="form-group">
+                        {% if messages %}
+                        <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div><br>
+					<div class="form-group" id="forgot">
+						<a href="/forgot1/"><span>Forgot Password</span></a>
+					</div>
+				</form>
+
+			</div><!--end of col-md-5-->
+			</div><!--end of row-->
+	</div><!--end of outer container fiel-->
+
+	<div class="container">
+	<div class="row">
+		<div class="col-lg-6" style="margin-top: 150px;">
+            <center>
+            <div class="form-group">
+            <div class="col-lg-10">
+            <a  href="{% provider_login_url "facebook" method="js_sdk" %}">
+                  <button style="font-size: 16px;background-color: darkblue;color: white;" type="button" class="btn">
+                      <span class="fa fa-facebook-square"></span>|
+                    Login with Facebook
+                  </button>
+
+            </a>
+            </div>
+            </div>
+               <div class="form-group col-lg-8">
+                   <span style="font-size: 14px;">Or</span>
+               </div>
+            <div class="form-group" >
+            <div class="col-lg-10" >
+            <a  id="google_login" href="/accounts/google/login">
+                <button style="font-size: 16px;background-color: orangered;color: white" type="button" class="btn  btn-danger">
+                    <span class="fa fa-google-plus"></span>|
+                    Login with Google+
+                </button>
+            </a>
+            </div>
+            </div>
+            </center>
+		</div><!--end of col-lg-6-->
+		<div class="col-lg-6">
+			<center>
+			<span id="heading" >Create User</span>
+				</center>
+			<form method="post" action="/" class="form-horizontal">
+				{% csrf_token %}
+				<div class="form-group">
+					<label class="col-md-4 control-label">Username</label>
+					<div class="col-md-8">
+						{{form2.username}}
+                        <span style="color: red;font-size: 14px;">{{ form2.username.errors }}</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-4 control-label">First Name</label>
+					<div class="col-md-4">
+						{{form2.first_name}}
+                        <span style="color: red;font-size: 14px;">{{ form2.first_name.errors }}</span>
+					</div>
+					<div class="col-md-4">
+						{{form2.last_name}}
+                        <span style="color: red;font-size: 14px;">{{ form2.last_name.errors }}</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-4 control-label">Email</label>
+					<div class="col-md-8">
+						{{form2.email}}
+                        <span style="color: red;font-size: 14px;">{{ form2.email.errors }}</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-4 control-label">Password</label>
+					<div class="col-md-8">
+						{{form2.password}}
+                        <span style="color: red;font-size: 14px;">{{ form2.password.errors }}</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-4 control-label">Confirm Password</label>
+					<div class="col-md-8">
+						{{form2.confirm_password}}
+                        <span style="color: red;font-size: 14px;">{{ form2.confirm_password.errors }}</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-offset-8">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div><!--end of col-lg-5-->
+	</div><!--end of row-->
+	
+</div>
+</body>
+
+</html>

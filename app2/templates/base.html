@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'image/icon.png' %}">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {% load static %}
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"> </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    {% load static %}
+    <script src="{% static 'js/bootstrap.min.js' %}"> </script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Scope+One" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style type="text/css">
+body {
+    font-family: 'Scope One', serif;
+
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-default">
+			<div class="container" >
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#head1" area-expanded="false">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+				</div><!--end of header-->
+			<div class="navbar-collapse collapse" id="head1">
+				<ul class="nav navbar-nav">
+                    
+                    <li><a href="/myblog/"><b>Home</b></a></li>
+                </ul>
+				<form class="navbar-form navbar-left" action="" method="post">
+					{% csrf_token %}
+					<div class="form-group">
+                        <div class="col-md-10">
+						<input style="width: 500px" type="text" name="srch" class="form-control" id="search" placeholder="Search Friends">
+
+                            <ul class="dropdown-menu" id="sresult" style="width: 300px" >
+                             {% include 'search-result.html' %}
+                             </ul>
+
+                        </div>
+					</div>
+				</form>
+
+			<ul class="nav navbar-nav navbar-right">
+                <li><a style="background-color:#013f36" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span title="Messages" class="material-icons">sms</span>
+                        {% if count_new  %}
+                        <span style="background-color:red" class="badge">{{ count_new.count  }}</span>
+
+                        {% endif %}
+                    </a>
+                        <ul class="dropdown-menu" style="width: 300px; padding-left: 10px; font-size:14px">
+                        <li>
+                            {% if count_new.count == 0 %}
+                                <div style="color: darkblue"><center>
+                                    <span class="glyphicon glyphicon-comment"></span>
+                                    No new messages found</center></div>
+                            {% endif %}
+                        <hr>
+                        </li>
+                            {% for k in detl %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        {% if k.msg_user.profile.profile_pic  %}
+                                        <a style="color: darkblue" href="/myblog/dashboard/message/">
+                                        <img class="img-circle" src="{{ k.msg_user.profile.profile_pic.url }}" width="30px" height="30px"> 
+                                        {% endif %}
+                                    </div>
+                                    <div style="padding:0px" class="col-md-10">
+                                    {{ k.msg_user.get_full_name|title }}  send you a message
+                                
+                                    <div style="font-size: 11px; color:black">{{ k.dat2|timesince }} ago</div>
+                                    </div>
+                                        </a>
+                                        <hr>
+                                        <hr>
+                                </div>
+                            </li>
+                                {% endfor %}
+                            <li>
+                                <a style="color: darkblue" href="/myblog/dashboard/message/">
+                                    View older messages
+                                </a>
+                            </li>
+
+                        </ul>
+                </li>
+                    <li><a style="background-color:#013f36" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span title="Notification" class="material-icons">notifications</span>
+                        {% if noti %}
+                        <span style="background-color:red" class="badge">{{ mfn3.count }}</span>
+                        {% endif %}
+
+                    </a>
+                        <ul class="dropdown-menu" style="width: 350px; padding-left: 10px; font-size: 14px">
+                            {% for k in noti %}
+                            <li>
+                                <div class="row">
+                                	<div class="col-md-2">
+                                    {% if k.notiuser.profile.profile_pic  %}
+                                    <a style="color: darkblue" href="#">
+                                        <img class="img-circle" src="{{ k.notiuser.profile.profile_pic.url }}" width="30px" height="30px"> &nbsp;
+                                            {% elif k.to_user.profile.profile_pic %}
+                                                <img class="img-circle" src="{{ k.to_user.profile.profile_pic.url }}" width="30px" height="30px"> &nbsp;
+                                        {% endif %}
+                                    </div>
+                                    <div style="padding:0px;" class="col-md-10">
+                                        {{ k.notif }}
+                                        <div style="font-size: 11px; color:black">{{ k.dat2|timesince }} ago</div>
+                                     </div> 
+                                    </a> 
+                                
+                                </div><!--end of row-->
+					
+                                
+                            </li>
+                                {% endfor %}
+                            <li>
+                                <a style="color: darkblue" href="/myblog/dashboard/notification/">
+                                    View all
+                                </a>
+                            </li>
+
+                        </ul>
+
+
+                    </li>
+
+
+                <li><a style="background-color:#013f36" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                         <span title="Friend Request" class="material-icons">group</span>
+                        {% if fr %}
+                        <span style="background-color:red" class="badge">{{ fr.count  }}</span>
+                        {% endif %}
+                    </a>
+                        <ul class="dropdown-menu" style="width: 300px; padding-left: 10px">
+                        <li>
+                            {% if fr.count == 0 %}
+                            <p style="color: darkblue">You have no friend requests now</p>
+                            {% endif %}
+                        </li>
+                            {% for k in fr %}
+                            <li>
+                                <p>
+                                    {% if k.sender.profile.profile_pic  %}
+                                    <a style="color: darkblue" href="#">
+                                    <img class="img-circle" src="{{ k.sender.profile.profile_pic.url }}" width="30px" height="30px"> &nbsp;
+                                    {% endif %}
+                                    {{ k.sender.get_full_name|title }} send you Friend request
+                                    </a>
+                                    <a href="/myblog/dashboard/accept/{{ k.id }}">
+                                        <button class="btn btn-primary btn-sm">Accept</button>
+                                    </a>
+                                    <a href="/myblog/dashboard/reject/{{ k.id }}">
+                                        <button class="btn btn-danger btn-sm">Reject</button>
+                                    </a>
+                                    &nbsp;&nbsp;&nbsp;<span style="font-size: 13px">{{ k.dat2|timesince }} ago</span>
+                                </p>
+                            </li>
+                                {% endfor %}
+                            <li>
+                                <a style="color: darkblue" href="/myblog/dashboard/notification/">
+                                    View all
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/myblog/dashboard/">
+                            {% if request.user.profile.profile_pic %}
+                                <img  class="img-circle" src="{{ request.user.profile.profile_pic.url }}" width="30" height="30" />
+
+                                {% else %}
+                                {% load static %}
+                                <img class="img-circle" src="{% static "image/user.png" %}" width="30" height="30" />
+                            {% endif %}
+
+                            &nbsp;<b>{{request.user.get_full_name|title}}</b>
+                            
+                        </a>
+                    </li>
+                    <li>
+                        <a style="background-color:#013f36" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-cog"></span>
+                                <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu name-dropdown">
+                            <li>
+                                <a  href="/myblog/profile_detail/{{ request.user.id }}/">Profile</a>
+
+                            </li>
+                            <li><a  href="/myblog/dashboard/friends/">  Friends
+                                    {% if friends %}
+                                    <span style="background-color:red" class="badge">{{ friends.count  }}</span>
+                                    {% endif %}
+                             </a>  </li>
+                            <li><a  href="">   Change Password </a>  </li>
+                            <li><a  title="logout" href="/logout/">  Logout </a> </li>
+                        </ul>
+                    </li>
+
+			</ul>
+			</div><!--end of id head1-->
+			</div><!--end of inner container field-->
+		</nav>
+	</div><!--end of outer container field-->
+
+    <!--end of navbar-->
+    <div class="container">
+
+
+        {% block content %}
+
+
+        {% endblock %}
+    </div>
+<script>
+
+    $(document).ready(function() {
+
+    $('#search').keyup(function() {
+
+        $.ajax({
+            type: "GET",
+            url: "/myblog/search_status/",
+            data: {
+                'srch' : $('#search').val(),
+                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: searchSuccess
+
+        });
+    });
+});
+
+function searchSuccess(data, textStatus, jqXHR)
+{
+
+    $('#search-result').html(data);
+
+$('#search').keyup(function () {
+    var srh = $('#search').val();
+    if (srh == ""){
+        $('#sresult').hide('fast');
+
+    }
+    else {
+       $('#sresult').show('fast');
+
+       $('#search').keydown(function () {
+
+
+
+
+
+       });
+
+
+
+
+    }
+});
+
+
+
+
+}
+
+
+
+    </script>
+</body>
+</html>

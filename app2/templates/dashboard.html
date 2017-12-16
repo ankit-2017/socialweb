@@ -1,0 +1,156 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="form-group">
+                        {% if messages %}
+                        <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            <div class="alert alert-danger" role="alert"> {{ message }} </div>
+                        </li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+   <div style="color: green;" >
+        {{ ms }}
+    </div>
+
+
+    {% for s in sh %}
+        <div style="margin-bottom: 20px" class="row col-md-offset-1">
+            <div class="col-md-1">
+                {% if s.s_user.profile.profile_pic %}
+                    <img class="img-circle pull-right" src="{{ s.s_user.profile.profile_pic.url }}" width="60" height="60">
+                {% endif %}
+            </div>
+        <div class="col-md-7" style="padding: 0px" >
+            Shared by &nbsp;<b>{{ s.s_user.get_full_name|title }}</b> &nbsp;
+            {{ s.dat2|timesince }}&nbsp;Ago<br>
+            {{  s.s_comment }}
+        </div>
+
+        </div>
+        <div class="col-md-offset-2" >
+        <a   href="/myblog/dashboard/delete_shared/{{ s.id }}">
+
+                <span style="color: red"  class="glyphicon glyphicon-trash"></span> &nbsp;Delete
+
+        </a>
+        </div>
+    {% endfor %}
+{% if udetail %}
+{% for det in udetail %}
+    <div  class="row">
+    <div  class="col-md-2">
+    {% if det.user1.profile.profile_pic  %}
+    <img class="img-circle pull-right" src="{{  det.user1.profile.profile_pic.url }}" width="60px" height="60px" >
+        </div>
+        <div style="padding: 0px" class="col-md-6 for_delete_post ">
+        <span style="color: #1b6d85; font-size: 17px">
+            {{ det.user1.get_full_name|title }}&nbsp;
+            <span style="color: #3e152b; font-size: 13px">{{ det.dat|timesince }} &nbsp; Ago</span>
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a style="color:black" class="remove_post" href="/myblog/dashboard/delete/{{ det.id }}">
+            <span  class="glyphicon glyphicon-remove"></span>
+            </a>
+        <div>
+        {{ det.comment }}
+        </div>
+    {% endif %}
+        </div>
+    </div>
+    <div class="col-md-offset-1" style="margin-top:10px">
+    {% for rp in det.reply %}
+        <div class="row" style="margin-bottom: 7px" >
+
+            <div class="col-md-2 ">
+
+                {% if rp.replyuser.profile.profile_pic %}
+                <img class="img-circle pull-right" src="{{ rp.replyuser.profile.profile_pic.url }}" width="30px" height="30px">
+                {% endif %}
+            </div><!--end of col-md-2-->
+
+
+            <div class="col-md-6 border1">
+                <span  style="color: #1b6d85; font-size: 15px">
+                    {{ rp.replyuser.get_full_name|title }}
+                    <span style="color: #3e152b; font-size: 13px">{{ rp.dat1|timesince }} &nbsp; ago </span>
+                </span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <a style="color: red" class="remove1" href="/myblog/dashboard/delete_reply/{{ rp.id }}">
+                <span class="glyphicon glyphicon-remove "></span>
+                </a>
+
+                <div style="font-size: 14px">{{ rp.reply }}</div>
+
+
+            </div><!--end of col-md-`6-->
+        </div><!--end of row-->
+    {% endfor %}
+    <div class="col-md-offset-1" style="margin-bottom: 10px;" >
+        <a style="color: black" title="Share this comment" href="/myblog/to_share/{{ det.id }}/">
+
+            <span style="color: black" class="glyphicon glyphicon-share" aria-hidden="true"></span> &nbsp;Share
+
+        </a> &nbsp; &nbsp;
+        <a style="color: black"  href="/myblog/dashboard/delete/{{ det.id }}">
+
+                <span style="color: Red"  class="glyphicon glyphicon-trash"></span> &nbsp; Delete
+
+        </a>
+    </div>
+    </div><!--end of col-md-offset-2-->
+
+{% endfor %}
+{% else %}
+        <span style="font-size: 25px; color: #3c3c3c; font-weight: bold">You haven't any post</span>
+{% endif %}
+
+    <div >
+    <h2>People you may know</h2>
+    </div>
+    {% for net in obj1 %}
+    <div class="row">
+    <div class="col-md-2" style="padding: 0px; margin-top: 10px">
+
+            {% if net.profile.profile_pic  %}
+                <img class="img-circle pull-right" src=" {{ net.profile.profile_pic.url }}" width="100px" height="100px" >
+            {% else %}
+            {% load static %}
+                <img class="img-circle pull-right" src="{% static 'image/user.png' %}" width="100px" height="100px">
+            {% endif %}
+    </div><!--end of col-md-2-->
+
+
+    <div class="col-md-6">
+        <span style="font-size: 18px;">{{ net.get_full_name|title }} </span><br>
+        <span>{{ net.profile.dob }}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/myblog/dashboard/add_friend/{{ net.id }}">
+            <button type="button" class="btn btn-primary">
+                +Add Friend
+            </button>
+        </a>
+    </div>
+    </div><!--end of row-->
+    {% endfor %}
+    <script>
+    $('.border1').hover(function () {
+       $(this).contents().filter('.remove1').css({"display":"inline-block"});
+    }, function () {
+        $(this).contents().filter('.remove1').css({'display':'none'});
+    });
+
+    $(document).ready(function() {
+        $('.for_delete_post').hover( function () {
+            $(this).contents().filter('.remove_post').css({'display':'inline-block'});
+        }, function () {
+            $(this).contents().filter('.remove_post').css({'display':'none'});
+        });
+    });
+
+    </script>
+{% endblock %}
+
+

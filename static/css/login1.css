@@ -1,0 +1,39 @@
+#navbar {
+	background-color: #1f3863;
+}
+.container {
+	font-family: 'Scope One', serif;
+}
+.form-horizontal {
+	font-size: 20px;
+	margin-top: 20px;
+}
+.container-fluid{
+	padding-right: 10px; 
+	padding-left: 10px;
+	margin: 0px;
+	color: white;
+	font-family: 'Scope One', serif;
+}
+
+.col-md-5 form .form-group {
+	font-size: 18px;
+}
+#forgot {
+	margin-top: 5px;
+
+}
+#forgot a {
+	color: #b9b3bf;
+}
+ .container-fluid .row .col-md-7 #social a {
+	font-family: 'Baloo Bhaina', cursive;
+	font-size: 50px;
+	color: white;
+	text-decoration: none;
+}
+
+#heading {
+	font-size: 40px;
+}
+

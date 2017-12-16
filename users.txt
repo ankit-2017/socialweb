@@ -1,0 +1,20 @@
+mysite project users
+
+username-michal1
+password - michal123
+
+username - ankit123
+password- ankit@123
+
+username - jack12
+password - ankit@123
+
+username - rahul123
+password - ankit@123
+
+username- roger12
+password - roger@123
+
+username - vin123
+password - vin@123
+

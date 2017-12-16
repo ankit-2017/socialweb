@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.col-md-offset-2 .table {
+    background-color: #1f3863;
+    font-family: 'Scope One', serif;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 50px;
+
+}
+.author {
+    font-size: 30px;
+    font-family: 'Ubuntu', sans-serif;
+}
+table img {
+    border-radius: 7px;
+}
+
+</style>
+    <div class="row">
+        <div class="col-md-7 col-md-offset-2">
+            <div class="col-md-12">
+                <center>
+                <span class="author">Author details</span>
+                </center>
+            </div>
+            <table class="table" border="0">
+                <tr>
+                    <td colspan="2">
+                        <center>
+                            {% if detail.profile.profile_pic %}
+                        <img src="{{   detail.profile.profile_pic.url }}" width="200px" height="200px" />
+                            {% endif %}
+                        </center>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Full Name</b></td>
+                    <td>  {{ detail.get_full_name|title }}   </td>
+                </tr>
+                <tr>
+                    <td><b>Email ID</b></td>
+                    <td>  {{ detail.email }}  </td>
+                </tr>
+                <tr>
+                    <td><b>Date Of Birth</b></td>
+                    <td>  {{ detail.profile.dob }}  </td>
+                </tr>
+                <tr>
+                    <td><b>Contact Number</b></td>
+                    <td>  {{ detail.profile.mobile_number }}  </td>
+                </tr>
+            <tr>
+                <td><b>Location</b></td>
+                    <td>  {{ detail.profile.location }}  </td>
+                </tr>
+            <tr>
+                <td><b>Job title</b></td>
+                    <td>  {{ detail.profile.job_title }}  </td>
+                </tr>
+            <tr>
+                <td><b>Collage</b></td>
+                    <td>  {{ detail.profile.collage }}  </td>
+                </tr>
+
+            </table>
+        <a href="/myblog/profile/{{ request.user.id }}/">
+            <button type="button" class="btn btn-success col-md-offset-3">Edit Profile</button>
+            </a>
+            <a href="/myblog/">
+            <button type="button" class="btn btn-danger col-md-3">Back</button>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

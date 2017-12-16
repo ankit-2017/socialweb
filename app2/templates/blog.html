@@ -1,0 +1,274 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+.img1 {
+    width: 500px;
+    height: 250px;
+}
+#cout {
+    display: none;
+}
+
+</style>
+
+                  <!--  <script>
+
+                        $(document).ready(function () {
+
+                            $('.reply').click(function () {
+
+                                $(this).siblings('#replydiv').slideToggle('slow');
+                            });
+                        });
+
+                    </script>
+
+      -->
+    <script>
+    $(document).ready( function() {
+        $(".like_btn1").click( function () {
+            var valu = $(this).attr('id');
+            var curr = $(this);
+            curr.parent().find('.forload').hide();
+            curr.parent().find('#cout').show();
+            console.log(valu);
+            $.ajax({
+                type:"POST",
+                url: "{% url 'like' %}",
+                data: { valu:valu},
+                success: function (response) {
+
+                                curr.parent().find('#htm').text(response.like1);
+                                curr.parent().find('#cout').text(response.lcount);
+
+
+                },
+                error: function () {
+                    alert('error with backend function');
+                }
+            });
+        });
+    });
+
+    function forload() {
+
+            var valu = $(this).attr('id');
+
+
+            console.log(valu);
+            $.ajax({
+                type: "POST",
+                url: "/myblog/",
+                data: {valu: valu},
+                success: function (response) {
+                    console.log(response);
+
+
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+
+    };
+    </script>
+
+			<div class="col-lg-11 col-lg-offset-1 font" >
+
+
+
+
+
+
+
+                    <div class="form-group">
+                        {% if messages %}
+                        <ul class="messages">
+                         {% for message in messages %}
+                         {% endfor %}
+                         {% endif %}
+                         </ul>
+                    </div>
+
+					<form action="/myblog/" method="post" class="form-horizontal" enctype="multipart/form-data">
+					{% csrf_token %}
+                        <div class="form-group">
+                        {{ form1.non_field_errors }}
+                        </div>
+					<div class="form-group">
+						<div class="col-md-6">
+							{{form1.comment}}
+
+                            <span style="color: red"> {{ form1.comment.errors }} </span>
+                        </div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-4">
+							{{form1.image}}
+                            <span style="color: red"> {{ form1.image.errors }} </span>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary col-md-offset-2">Post</button>
+
+					</form>
+
+
+
+
+				{% for k in  bl %}
+			<div class="row main">
+				<div class="col-md-1" style="padding: 0px">
+                        <div  >
+                    <a href="/myblog/profile_detail/{{ k.id }}/{{ k.slug }}/">
+                        {% if k.user1.profile.profile_pic %}
+
+					    <img class="img-circle" src="{{ k.user1.profile.profile_pic.url }}" width="60" height="60"><br>
+                            {% else %}
+                                {% load static %}
+                                <img class="img-circle" src="{% static "image/user.png" %}" width="60" height="60" />
+                        {% endif %}
+                        &nbsp;
+                        &nbsp;
+
+                    </a>
+                        </div>
+
+
+
+                </div>
+                <div style="padding: 0px" class="col-md-8">
+
+						<div class="col-md-12 comment">
+                            <span style="color: #1f3863; font-size: 19px;"><strong> {{k.user1.get_full_name|title}} </strong></span>
+                             <span style="color: #985f0d;font-size: 14px">{{k.dat|timesince}} &nbsp; ago</span><br>
+							{{k.comment|linebreaks}}
+
+						</div>
+
+						<div class="col-md-12">
+							{% if k.image %}
+							<img class="img-responsive img1" src="{{ k.image.url }}" />
+							{% endif %}
+
+						</div>
+
+                <div class="col-md-12 inline">
+							<ul style="font-size: 14px; padding: 0px; font-weight: bold">
+
+                            <li>
+                                <div  >
+
+                                <span  id="{{ k.id }}"  style="font-size: 20px; cursor: pointer; color: #1f3863"  class="fa fa-thumbs-up like_btn1"></span>
+
+                                    <span style=" color: darkblue; " id="htm"> </span> &nbsp;
+                                    <span style=" color: darkblue; "  id ="cout"> </span>
+
+                                    <span style=" color: darkblue;" class="forload">
+                                        {% for h in k.like3 %}
+                                        {{ h.like }}
+                                        {% endfor %}
+                                        {% if k.like_count %}
+                                            {{ k.like_count }}
+                                    {% endif %}
+                                    </span>
+
+                                </div>
+                            </li>
+
+								<li>
+								<a  href="/myblog/helpful/{{k.id}}/">
+                                    <button  style="text-decoration: none; color: #0f0f0f"  class="btn btn-link"><b>Helpful</b>
+                                    <span class="badge">
+                                        {% if k.helpful  %}
+                                        {{ k.helpful }}
+                                        {% endif %}
+                                    </span>
+                                    </button>
+                                </a>
+								</li>
+								<li>
+									<a title="Add to favorite" href="#">
+
+										<span style="color:red;" class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+
+									</a>
+								</li>
+
+							</ul>
+                             <div class="replynum">
+                                <span class="badge" >{{ k.number_of_reply }}</span> &nbsp;
+                                Comments
+                            </div>
+						</div><!--end of col-md-12-->
+
+
+
+                        <div  class="col-md-11 col-md-offset-1">
+                            {% for rpl in k.reply %}
+                                <div class="row">
+
+                                    <div class="col-md-1 username">
+                                        <div class="pull-right">
+                                            {% if rpl.replyuser.profile.profile_pic %}
+                                                <img class="img-circle"  src="{{ rpl.replyuser.profile.profile_pic.url }}" width="40px" height="40px" >
+                                                {% else %}
+                                                {% load static %}
+                                                <img class="img-circle" src="{% static "image/user.png" %}" width="40" height="40" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-7 replytext">
+                                        <div class="postdate" style="color: #3a5700;">
+                                            <span style="color: #3e152b;font-size: 18px;">
+                                                <strong> {{ rpl.replyuser.get_full_name|title }}</strong> </span>
+                                            {{ rpl.dat1|timesince }}&nbsp;ago
+                                        </div>
+                                        {{ rpl.reply|linebreaks }}
+                                    </div>
+
+                                </div><!--end of row-->
+                            {% endfor %}
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            {% if request.user.profile.profile_pic %}
+                                                <img class="img-circle" src="{{ request.user.profile.profile_pic.url }}" width="40" height="40">
+                                            {% endif %}
+                                        </div><!--end of col-md-1-->
+                                        <div class="col-md-7" >
+                                            <form method="post" action="/myblog/reply/{{ k.id }}/">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                        {{ rform.reply }}
+                                                </div>
+                                            </form>
+                                        </div><!--end of col-md-7 of form row-->
+                                    </div><!--end of form row-->
+                            <div class="row">
+                                <div class="col-md-12 showall">
+
+                                        <a href="/myblog/showall/">
+                                    <button type="button" class="btn btn-link showbtn">Show all</button>
+                                        </a>
+
+                                </div>
+                            </div>
+                        </div><!--end of col-md-11-->
+
+
+
+
+
+
+					</div><!--end of col-md-8-->
+				</div><!--end of row-->
+				{% endfor %}
+
+		</div><!--end of col-lg-8-->
+
+
+{% endblock %}

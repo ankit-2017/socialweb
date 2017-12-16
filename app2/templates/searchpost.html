@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "library.html" %}
+</head>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            {% for k in  bl %}
+			<div class="row main">
+				<div class="col-md-2 ">
+                        <center>
+                    <a href="/myblog/profile_detail/{{ k.id }}">
+                        {% if k.user1.profile.profile_pic %}
+
+					    <img class="img-circle" src="{{ k.user1.profile.profile_pic.url }}" width="60" height="60"><br>
+
+                        {% endif %}
+                        &nbsp;
+                        &nbsp;
+                        {{k.user1.get_full_name}}
+                    </a>
+
+                        <div class="replynum">
+                        <span class="badge" >{{ k.number_of_reply }}</span> &nbsp;Replies
+                        </div>
+                        </center>
+                </div>
+                <div style="margin-top: 30px" class="col-md-8">
+
+						<div class="col-md-12 comment">
+                             <span style="color: #985f0d;font-size: 14px">Published:{{k.dat|timesince}} &nbsp; ago</span><br>
+							{{k.comment|linebreaks}}
+						</div>
+						<div class="col-md-12">
+							{% if k.image %}
+							<img class="img-responsive img1" src="{{ k.image.url }}" />
+							{% endif %}
+
+						</div>
+
+                            <div style="margin-top: 30px;" class="col-md-offset-1 col-md-11">
+                            {% for rpl in k.reply %}
+                                <div class="row">
+
+                                    <div class="col-md-3 username">
+                                        <center>
+                                        <img  src="{{ rpl.replyuser.profile.profile_pic.url }}" width="30px" height="30px" ><br>
+
+                                        <b> {{ rpl.replyuser.get_full_name }} </b>
+                                        </center>
+                                    </div>
+
+
+                                    <div class="col-md-7 replytext">
+                                        <div class="postdate" style="color: #3a5700;">
+                                            Replied:&nbsp;{{ rpl.dat1|timesince }}&nbsp;ago
+                                        </div>
+                                        {{ rpl.reply|linebreaks }}
+                                    </div>
+
+                                </div><!--end of row-->
+                            {% endfor %}
+                            <div class="row">
+                                <div class="col-md-12 showall">
+                                    <center>
+                                        <a href="/myblog/showall/">
+                                    <button type="button" class="btn btn-default showbtn">Show all</button>
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                            </div>
+
+
+					<div class="col-md-12 inline">
+							<ul>
+
+								<li>
+								<a title="Like" href="/myblog/helpful/{{k.id}}/">
+                                    <button  type="button"  class="btn btn-primary btn-sm">Helpful
+                                    <span class="badge">
+                                        {% if k.helpful  %}
+                                        {{ k.helpful }}
+                                        {% endif %}
+                                    </span>
+                                    </button>
+                                </a>
+								</li>
+
+                                    <li>
+								<a title="Like" href="/myblog/like/{{k.id}}">
+                                    <button  type="button" style="background-color: #3e152b;color: white;" class="btn btn-default btn-sm">Not Helpful
+
+                                        <span class="badge">
+                                        {% if k.not_helpful  %}
+                                        {{ k.not_helpful }}
+                                        {% endif %}
+                                    </span>
+                                    </button>
+
+									</a>
+								</li>
+								<li>
+
+								<a title="Share this comment" href="#"><button type="button" class="btn btn-info">
+										<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+									</button>
+									</a>
+								</li>
+								<li>
+									<a title="Add to favorite" href="#">
+										<button type="button" class="btn btn-success">
+										<span style="color:red;" class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+										</button>
+									</a>
+								</li>
+
+								<div title="Reply to comment" style="margin-top: 10px">
+                                    <button type="button"  style="border-radius: 5px; padding: 5px" class="btn btn-default reply">
+                                        <b>Reply<span class="caret"></span></b>
+									</button>
+                                    <div class="col-md-10 col-md-offset-2 collapse" id="replydiv">
+                                        <form method="post" action="/myblog/reply/{{ k.id }}/" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <div class="col-md-10">
+                                                    {{ rform.reply }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" id="replybtn" class="btn btn-primary col-md-offset-5">Post</button>
+                                            </div>
+
+                                        </form>
+                                    </div><!--end of col-md-10 or reply div-->
+                                </div><!--end of reply to comment title-->
+
+							</ul>
+						</div><!--end of col-md-12-->
+
+
+
+					</div><!--end of col-md-8-->
+				</div><!--end of row-->
+				{% endfor %}
+
+        </div>
+
+    </div>
+</div>
+<body>
+
+</body>
+</html>
