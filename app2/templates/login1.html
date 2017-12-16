@@ -1,5 +1,5 @@
 {% load socialaccount %}
-{% providers_media_js %}
+
 
 
 <html>
@@ -70,7 +70,7 @@ body {
             <center>
             <div class="form-group">
             <div class="col-lg-10">
-            <a  href="{% provider_login_url "facebook" method="js_sdk" %}">
+            <a  href="{% provider_login_url "facebook" method="oauth2" %}">
                   <button style="font-size: 16px;background-color: darkblue;color: white;" type="button" class="btn">
                       <span class="fa fa-facebook-square"></span>|
                     Login with Facebook
