@@ -27,7 +27,7 @@ SECRET_KEY = 'edfsea3r2^53#sk!6t905q7a!3f(v&lki^=*ufb5gb8=!wkflp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['socialweb21.herokuapp.com']
 
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ankitdubeymail@gmail.com'
@@ -145,7 +145,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-DISABLE_COLLECTSTATIC = 1
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'mysite/media')
