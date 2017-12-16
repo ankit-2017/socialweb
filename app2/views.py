@@ -197,7 +197,7 @@ def myblog(request):
 			form1 = blogg()
 		return render(request,'blog.html',{'bl':detail,'form1':form1,'rform':form,
 										   'detl':detl, 'count_new':new_msg_count,'noti':noti,'fr':friend_request,
-										   'friends':friends , 'like2':lk1})
+										   'friends':friends })
 	else:
 		messages.error(request, "Anonymous User!  Login with correct credentials")
 		return HttpResponseRedirect('/')
