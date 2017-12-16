@@ -162,7 +162,8 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/myblog/'
+
+
 LOGIN_URL1="/auth-check/"
 ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_USERNAME_REQURIED=True
@@ -204,3 +205,5 @@ SOCIALACCOUNT_PROVIDERS = {
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+LOGIN_REDIRECT_URL = '/myblog/'
