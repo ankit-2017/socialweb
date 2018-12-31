@@ -22,8 +22,8 @@ class collage(models.Model):
 		return self.clg_name
 
 class forlike(models.Model):
-	like_user=models.ForeignKey(User,blank=True,related_name='like_user')
-	to_like = models.ForeignKey(User, blank=True, related_name='to_like')
+	like_user=models.ForeignKey(User,blank=True,on_delete=models.CASCADE,related_name='like_user')
+	to_like = models.ForeignKey(User, blank=True,on_delete=models.CASCADE, related_name='to_like')
 	withblog = models.IntegerField( blank=True, null=True, default=0)
 	like = models.CharField(max_length=10, blank=True)
 	dat5 = models.DateTimeField(auto_now=True)
@@ -41,7 +41,7 @@ class blog1(models.Model):
 			raise ValidationError( 'exceed max file size %sMB' %str(MB_limit))
 
 
-	user1=models.ForeignKey(User,blank=True,null=True, related_name='user1')
+	user1=models.ForeignKey(User,blank=True,null=True, related_name='user1', on_delete=models.CASCADE)
 	#likemod = models.ForeignKey(forlike, blank=True, null=True)
 	comment=models.TextField()
 	image=models.ImageField(upload_to='user_images',blank=True)
@@ -50,7 +50,7 @@ class blog1(models.Model):
 							  #validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png']), validate_size])
 
 	helpful =models.IntegerField(blank=True,null=True, default=0)
-	like_acc = models.ForeignKey(forlike, blank=True, null=True, related_name='like_acc')
+	like_acc = models.ForeignKey(forlike, blank=True, null=True, related_name='like_acc', on_delete=models.CASCADE)
 	slug= models.SlugField(max_length=250, null=True)
 	not_helpful=models.IntegerField(null=True,blank=True)
 	dat=models.DateTimeField(auto_now=True)
@@ -66,7 +66,7 @@ class profile(models.Model):
 		if filesize > allow*1024*1024:
 			raise ValidationError("Profile image size should be less than 1 MB ")
 
-	user=models.OneToOneField(User)
+	user=models.OneToOneField(User, on_delete=models.CASCADE)
 	dob=models.DateField(blank=True,null=True)
 	profile_pic=models.ImageField(upload_to='user_images',blank=True,null=True)
 	mobile_number=models.CharField(max_length=10)
@@ -75,8 +75,8 @@ class profile(models.Model):
 	collage = models.CharField(max_length=250,null=True)
 
 class replytocomment(models.Model):
-	replyuser= models.ForeignKey(User,blank=True,null=True)
-	replyblog=models.ForeignKey(blog1,blank=True,null=True)
+	replyuser= models.ForeignKey(User,blank=True,null=True, on_delete=models.CASCADE)
+	replyblog=models.ForeignKey(blog1,blank=True,null=True, on_delete=models.CASCADE)
 	reply=models.CharField(max_length=500,null=True, blank=True)
 	dat1 = models.DateTimeField(auto_now=True)
 
@@ -84,7 +84,7 @@ class replytocomment(models.Model):
 		return self.reply
 
 class message(models.Model):
-	msg_user = models.ForeignKey(User, blank=True, null=True)
+	msg_user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 	reciver = models.CharField(blank=True, null=True, max_length=100)
 	msg = models.TextField(max_length=500, blank=True, null=True)
 	dat2 = models.DateTimeField(auto_now=True)
@@ -93,7 +93,7 @@ class message(models.Model):
 		return  self.msg
 
 class new_message(models.Model):
-	new_msg_user = models.ForeignKey(User, blank=True, null=True)
+	new_msg_user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 	reciver = models.CharField(blank=True, null=True, max_length=100)
 	new_msg = models.TextField(max_length=500, blank=True, null=True)
 	dat2 = models.DateTimeField(auto_now=True)
@@ -102,8 +102,8 @@ class new_message(models.Model):
 		return self.new_msg
 
 class notification(models.Model):
-	notiuser=models.ForeignKey(User,blank=True,null=True,related_name='notiuser')
-	to_user = models.ForeignKey(User,blank=True,null=True,related_name='to_user')
+	notiuser=models.ForeignKey(User,blank=True,null=True,related_name='notiuser', on_delete=models.CASCADE)
+	to_user = models.ForeignKey(User,blank=True,null=True,related_name='to_user',on_delete=models.CASCADE)
 	notif=models.CharField(blank=True,null=True,max_length=200)
 	dat2=models.DateTimeField(auto_now=True)
 
@@ -111,8 +111,8 @@ class notification(models.Model):
 		return self.notif
 
 class friend(models.Model):
-	sender=models.ForeignKey(User,blank=True,null=True, related_name='sender')
-	to_friend = models.ForeignKey(User,blank=True,null=True, related_name='to_friend')
+	sender=models.ForeignKey(User,blank=True,null=True, related_name='sender', on_delete=models.CASCADE)
+	to_friend = models.ForeignKey(User,blank=True,null=True, related_name='to_friend', on_delete=models.CASCADE)
 	friend_or_not=models.BooleanField(default=False)
 	dat2=models.DateTimeField(auto_now=True)
 
@@ -120,8 +120,8 @@ class friend(models.Model):
 		return self.sender.username
 
 class shared(models.Model):
-	s_user=models.ForeignKey(User,blank=True,null=True, related_name='s_user')
-	to_frnd = models.ForeignKey(User, blank=True, null=True, related_name='to_frnd')
+	s_user=models.ForeignKey(User,blank=True,null=True, related_name='s_user', on_delete=models.CASCADE)
+	to_frnd = models.ForeignKey(User, blank=True, null=True, related_name='to_frnd', on_delete=models.CASCADE)
 	s_comment = models.CharField(blank=True,null=True, max_length=500)
 	dat2=models.DateTimeField(auto_now=True)
 

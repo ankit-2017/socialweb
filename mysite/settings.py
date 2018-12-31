@@ -27,7 +27,7 @@ SECRET_KEY = 'edfsea3r2^53#sk!6t905q7a!3f(v&lki^=*ufb5gb8=!wkflp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['socialweb21.herokuapp.com']
+ALLOWED_HOSTS = []
 
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ankitdubeymail@gmail.com'
@@ -143,7 +143,7 @@ STATICFILES_DIRS = [
                 os.path.join(BASE_DIR, "static"),
             ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 MEDIA_URL = '/media/'
@@ -202,8 +202,8 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+#import dj_database_url
+#db_from_env = dj_database_url.config(conn_max_age=500)
+#DATABASES['default'].update(db_from_env)
 
 LOGIN_REDIRECT_URL = '/myblog/'
